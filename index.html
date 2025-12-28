@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+
+        :root {
+            --primary: red;
+            --secondary: #88d3ce;
+            --dark: #f1f1f1;
+            --light: #1a1a2e;
+            --accent: #ff6b6b;
+            --yellow: #ffb400;
+            --background: var(--dark);
+            --text: var(--light);
+            --input-bg: rgba(0, 0, 0, 0.05);
+            --login-box-bg: rgba(255, 255, 255, 0.9);
+            --modal-bg: rgba(255, 255, 255, 0.9);
+            --particle-color: rgba(110, 69, 226, 0.5);
+        }
+
+        :root.dark-theme {
+            --dark: #1a1a2e;
+            --light: #f1f1f1;
+            --background: var(--dark);
+            --text: var(--light);
+            --input-bg: rgba(255, 255, 255, 0.1);
+            --login-box-bg: rgba(26, 26, 46, 0.9);
+            --modal-bg: rgba(26, 26, 46, 0.9);
+            --particle-color: rgba(136, 211, 206, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(110, 69, 226, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(136, 211, 206, 0.1) 0%, transparent 20%);
+            min-height: 100vh;
+            position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: var(--particle-color);
+            border-radius: 50%;
+            animation: float-particle 10s infinite ease-in-out;
+        }
+
+        @keyframes float-particle {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            flex-direction: column;
+        }
+
+        .login-box {
+            background: var(--login-box-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+        }
+
+        .login-box:hover {
+            transform: perspective(1000px) rotateY(5deg) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-box h2 {
+            color: var(--secondary);
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(136, 211, 206, 0.5);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .input-group input,
+        .input-group select,
+        .config-output textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--input-bg);
+            border: none;
+            border-radius: 50px;
+            color: var(--text);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            resize: none;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .config-output textarea:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(136, 211, 206, 0.3);
+        }
+
+        .input-group input:invalid:not(:placeholder-shown),
+        .input-group select:invalid {
+            border-color: var(--accent);
+        }
+
+        .input-group label {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--background);
+            padding: 0 10px;
+            font-size: 0.9rem;
+            color: var(--secondary);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(110, 69, 226, 0.4);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-theme .btn {
+            color: var(--light);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(110, 69, 226, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .create-btn,
+        .copy-btn {
+            background: linear-gradient(45deg, var(--yellow), #ffda33);
+            color: var(--light);
+            margin: 30px auto;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .create-btn:hover,
+        .copy-btn:hover {
+            box-shadow: 0 8px 25px rgba(255, 180, 0, 0.6);
+        }
+
+        .config-output {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .config-output textarea {
+            margin-bottom: 20px;
+            height: 80px;
+            font-family: monospace;
+        }
+
+        .telegram-banner {
+            background: linear-gradient(45deg, #0088cc, #00aced);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 20px rgba(0, 136, 204, 0.3);
+            animation: pulseBlue 3s infinite;
+            width: 100%;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        @keyframes pulseBlue {
+            0% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.3); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 136, 204, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 136, 204, 0); }
+        }
+
+        .telegram-text {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .telegram-icon {
+            font-size: 2.5rem;
+        }
+
+        .telegram-info h3 {
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+            color: var(--light);
+        }
+
+        .telegram-info p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+            color: var(--light);
+        }
+
+        .telegram-btn {
+            background: white;
+            color: #0088cc;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark-theme .telegram-btn {
+            background: #333;
+            color: #00aced;
+        }
+
+        .telegram-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .support-btn,
+        .guide-btn,
+        .v2ray-btn,
+        .theme-btn {
+            position: fixed;
+            background: linear-gradient(45deg, #0088cc, #00aced);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
+            z-index: 10;
+        }
+
+        .support-btn {
+            left: 20px;
+            top: 20px;
+        }
+
+        .theme-btn {
+            left: 20px;
+            top: 70px;
+        }
+
+        .guide-btn {
+            right: 20px;
+            top: 20px;
+        }
+
+        .v2ray-btn {
+            right: 20px;
+            top: 70px;
+        }
+
+        .support-btn:hover,
+        .guide-btn:hover,
+        .v2ray-btn:hover,
+        .theme-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 136, 204, 0.6);
+        }
+
+        .support-btn:active,
+        .guide-btn:active,
+        .v2ray-btn:active,
+        .theme-btn:active {
+            transform: translateY(1px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            text-align: right;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            color: var(--text);
+        }
+
+        .modal-content h3 {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .floating-animation {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-1 {
+            top: 20%;
+            left: 10%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-2 {
+            top: 60%;
+            right: 15%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-3 {
+            bottom: 10%;
+            left: 20%;
+            animation: float 7s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        .glow {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .glow-1 {
+            background: var(--primary);
+            top: 10%;
+            left: 10%;
+        }
+
+        .glow-2 {
+            background: var(--secondary);
+            bottom: 10%;
+            right: 10%;
+        }
+
+        .config-section {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .config-section h2 {
+            color: var(--secondary);
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(136, 211, 206, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .login-box {
+                padding: 30px 20px;
+            }
+
+            .telegram-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .config-section {
+                padding: 0 20px;
+            }
+
+            .support-btn,
+            .guide-btn,
+            .v2ray-btn,
+            .theme-btn {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+
+            .theme-btn {
+                top: 60px;
+            }
+
+            .v2ray-btn {
+                top: 60px;
+            }
+
+            .modal-content {
+                padding: 20px;
+                width: 95%;
+            }
+
+            .config-output textarea {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Support Button -->
+    <a href="." target="_blank" class="support-btn" aria-label="پشتیبانی از طریق تلگرام">
+        <i class="fas fa-headset"></i> پشتیبانی
+    </a>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-btn" id="themeBtn" aria-label="تغییر حالت تم">
+        <i class="fas fa-sun"></i> حالت شب
+    </button>
+
+    <!-- Guide Button -->
+    <button class="guide-btn" id="guideBtn" aria-label="نمایش راهنمای استفاده">
+        <i class="fas fa-question-circle"></i> راهنما
+    </button>
+
+    <!-- V2Ray Info Button -->
+    <button class="v2ray-btn" id="v2rayBtn" aria-label="اطلاعات درباره ویتوری">
+        <i class="fas fa-info-circle"></i> ویتوری چیست؟
+    </button>
+
+    <!-- Guide Modal -->
+    <div class="modal" id="guideModal" role="dialog" aria-labelledby="guideModalTitle">
+        <div class="modal-content">
+            <button class="close-btn" id="closeGuideModal" aria-label="بستن راهنما">×</button>
+            <h3 id="guideModalTitle">راهنمای ساخت کانفیگ در پنل</h3>
+            <p>برای ساخت کانفیگ v2ray در این پنل، مراحل زیر را دنبال کنید:</p>
+            <p><strong>1. انتخاب کشور سرور:</strong> از منوی کشویی "کشور سرور"، یکی از کشورهای موجود (مانند آلمان، آمریکا، فرانسه و ...) را انتخاب کنید.</p>
+            <p><strong>2. تعیین حجم کانفیگ:</strong> در فیلد "حجم کانفیگ"، مقدار مورد نظر خود را به گیگابایت وارد کنید.</p>
+            <p><strong>3. انتخاب مدت زمان:</strong> از منوی کشویی "مدت زمان"، دوره‌ای که می‌خواهید کانفیگ فعال باشد را انتخاب کنید.</p>
+            <p><strong>4. انتخاب نوع شبکه:</strong> در بخش "نوع شبکه"، اپراتور شبکه خود را انتخاب کنید.</p>
+            <p><strong>5. ساخت کانفیگ:</strong> روی دکمه زرد "ساخت کانفیگ" کلیک کنید.</p>
+            <p><strong>نکته:</strong> برای دریافت آخرین کانفیگ‌ها، به کانال تلگرام ما بپیوندید. در صورت بروز مشکل، از گزینه پشتیبانی استفاده کنید.</p>
+        </div>
+    </div>
+
+    <!-- V2Ray Info Modal -->
+    <div class="modal" id="v2rayModal" role="dialog" aria-labelledby="v2rayModalTitle">
+        <div class="modal-content">
+            <button class="close-btn" id="closeV2rayModal" aria-label="بستن اطلاعات ویتوری">×</button>
+            <h3 id="v2rayModalTitle">ویتوری چیست و چه کاری انجام می‌دهد؟</h3>
+            <p>ویتوری یا همان v2ray یک ابزار برای دور زدن محدودیت‌های اینترنتی است که به شما امکان دسترسی به برنامه‌های فیلتر شده مانند تلگرام، اینستاگرام، یوتیوب و ..... را می‌دهد.</p>
+            <h3>این پنل چیکار می‌کنه؟</h3>
+            <p>این پنل به شما امکان می‌دهد کانفیگ‌های v2ray را به صورت اختصاصی ایجاد کنید. کافی است کانفیگ را کپی کرده و در برنامه v2ray وارد کنید.</p>
+            <p><strong>توجه:</strong> کانفیگ‌های v2ray معمولاً پولی هستند ، اما ما این پنل رو با قیمت ارزان در اختیار شما گزاشتیم.</p>
+            <p>با تشکر که این مطلب را خواندید ❤️</p>
+        </div>
+    </div>
+
+    <!-- Floating animations -->
+    <div class="floating-animation floating-1">
+        <i class="fas fa-shield-alt" style="font-size: 3rem; color: rgba(110, 69, 226, 0.3);"></i>
+    </div>
+    <div class="floating-animation floating-2">
+        <i class="fas fa-globe" style="font-size: 4rem; color: rgba(136, 211, 206, 0.3);"></i>
+    </div>
+    <div class="floating-animation floating-3">
+        <i class="fas fa-lock" style="font-size: 2.5rem; color: rgba(255, 107, 107, 0.3);"></i>
+    </div>
+
+    <!-- Glow effects -->
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <!-- Login Container -->
+    <div class="container" id="loginContainer">
+        <div class="login-box">
+            <h2>ورود به پنل v2ray</h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="text" id="usernameInput" placeholder="نام کاربری را وارد کنید" required aria-label="نام کاربری">
+                    <label for="usernameInput">نام کاربری</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="passwordInput" placeholder="رمز عبور را وارد کنید" required aria-label="رمز عبور">
+                    <label for="passwordInput">رمز عبور</label>
+                </div>
+                <button type="submit" class="btn" id="loginBtn">ورود به پنل <i class="fas fa-arrow-left"></i></button>
+            </form>
+            <div style="margin-top: 30px; font-size: 0.9rem; opacity: 0.8;">
+                برای دریافت آخرین کانفیگ‌ها به کانال ما بپیوندید:
+                <div style="margin-top: 10px;">
+                    <a href="." target="_blank" style="color: var(--secondary); text-decoration: none; font-weight: bold;">
+                        <i class="fab fa-telegram"></i> پنل اختصاصی V2ray ✅
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Panel Container -->
+    <div class="container" id="panelContainer" style="display: none;">
+        <div class="config-section">
+            <h2>ساخت کانفیگ v2ray</h2>
+            <form id="configForm">
+                <div class="input-group">
+                    <select id="countrySelect" required aria-label="کشور سرور">
+                        <option value="" disabled selected>کشور سرور را انتخاب کنید</option>
+                        <option value="usa">🇺🇸 آمریکا</option>
+                        <option value="germany">🇩🇪 آلمان</option>
+                        <option value="finland">🇫🇮 فینلند</option>
+                        <option value="netherlands">🇳🇱 هلند</option>
+                        <option value="uk">🇬🇧 بریتانیا</option>
+                        <option value="poland">🇵🇱 لهستان</option>
+                        <option value="estonia">🇪🇪 استونی</option>
+                        <option value="hungary">🇭🇺 مجارستان</option>
+                        
+                        
+                    </select>
+                    <label for="countrySelect">کشور سرور</label>
+                </div>
+                <div class="input-group">
+                    <input type="number" id="volumeInput" placeholder="فقط پنج ترابایت مجاز است" min="5000" max="5000" required aria-label="حجم کانفیگ">
+                    <label for="volumeInput">حجم کانفیگ</label>
+                </div>
+                <div class="input-group">
+                    <select id="durationSelect" required aria-label="مدت زمان">
+                        <option value="" disabled selected>مدت زمان کانفیگ را انتخاب کنید</option>
+                        <option value="30">30 روز</option>
+                    </select>
+                    <label for="durationSelect">مدت زمان</label>
+                </div>
+                <div class="input-group">
+                    <select id="networkSelect" required aria-label="نوع شبکه">
+                        <option value="" disabled selected>نوع شبکه را انتخاب کنید</option>
+                        <option value="custom">همه نت ها</option>
+                    </select>
+                    <label for="networkSelect">نوع شبکه</label>
+                </div>
+                <button type="submit" class="btn create-btn" id="createConfigBtn">ساخت کانفیگ <i class="fas fa-cog"></i></button>
+            </form>
+            <div class="config-output" id="configOutput">
+                <textarea id="configText" readonly aria-label="کانفیگ ساخته شده"></textarea>
+                <button class="btn copy-btn" id="copyBtn">کپی کانفیگ <i class="fas fa-copy"></i></button>
+            </div>
+        </div>
+        <div class="telegram-banner">
+            <div class="telegram-text">
+                <div class="telegram-icon">
+                    <i class="fab fa-telegram"></i>
+                </div>
+                <div class="telegram-info">
+                    <h3>به کانال تلگرام ما بپیوندید</h3>
+                    <p>برای دریافت آخرین کانفیگ‌ها و اطلاعیه‌ها</p>
+                </div>
+            </div>
+            <a href="." target="_blank" class="telegram-btn" aria-label="عضویت در کانال تلگرام">
+                <i class="fab fa-telegram"></i> عضویت در کانال
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // V2Ray Configurations
+        const v2rayConfigs = [
+
+'vless://9db29659-b68e-466e-988a-6627572c2478@217.13.104.128:443?security=reality&encryption=none&pbk=-cDQPpiRCwOtfQ22cdCd3NkDlqpubdklZXaFGhwUfS8&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=sun6-22.userapi.com&sid=a20d3ed244c76426#%F0%9F%87%AD%F0%9F%87%BA%20HU%20%28xxxxxxxxx%29%20%F0%9F%93%8A%20GB%20FG%20%2F%20SF%20%D8%B1%D9%88%D8%B2%D9%87',
+
+'vless://4c75f1b0-1143-477d-b6f8-849f26f1c88a@a.confignor.site:35493?mode=gun&security=reality&encryption=none&pbk=qeWt8jJZTwf6vmiTvDfaalPaSZDkX7a3XkKrBxf2YVA&fp=qq&type=grpc&serviceName=%DA%86%D9%86%D9%84%20%D8%B3%D8%A7%D8%B2%D9%86%D8%AF%D9%87%20%D8%A7%D8%B5%D9%84%DB%8C%20%DA%A9%D8%A7%D9%86%D9%81%DB%8C%DA%AF%20%40ConfigFree&sni=www.cdn77.com&sid=9c24#%F0%9F%87%B3%F0%9F%87%B1%20NS%20%28xxxxxxxxx%29%20%F0%9F%93%8A%20GB%20FG%20%2F%20SF%20%D8%B1%D9%88%D8%B2%D9%87',
+
+'vless://a91e64f0-9295-499d-bf4a-661ad99d4938@khabarovsk.geodema.network:443?security=reality&encryption=none&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&headerType=none&fp=ios&type=tcp&flow=xtls-rprx-vision&sni=khabarovsk.geodema.network&sid=1ed136481e0ede74#%F0%9F%87%B7%F0%9F%87%BA%20RU%20%28xxxxxxxxx%29%20%F0%9F%93%8A%20GB%20FG%20%2F%20SF%20%D8%B1%D9%88%D8%B2%D9%87',
+
+'vless://a41550c8-daee-4f2c-b5a8-e66b314c99b1@45.144.53.166:443?mode=gun&security=reality&encryption=none&pbk=XnSTGadTQ3R3qGd5lk7l8gZMuZUQH7fu1tItRmH6CEY&fp=chrome&type=grpc&sni=hel1.hitori.cloud&sid=e9d19fd1ca5ca23c#%F0%9F%87%AB%F0%9F%87%AE%20Fi%20%28xxxxxxxxx%29%20%F0%9F%93%8A%20GB%20FG%20%2F%20SF%20%D8%B1%D9%88%D8%B2%D9%87',
+
+'vless://e615a5ba-fce3-4ffa-9c86-b0327a8a107a@185.235.241.99:443?path=%2Fhormoz&security=tls&encryption=none&type=ws#%F0%9F%87%A9%F0%9F%87%AA%20GR%20%28xxxxxxxxx%29%20%F0%9F%93%8A%20GB%20FG%20%2F%20SF%20%D8%B1%D9%88%D8%B2%D9%87',
+
+'vless://eb162ab1-a006-4931-b1b3-8fc88a22b10e@tbankru.outlinekeys.net:443?security=reality&encryption=none&pbk=WvNaAxI0W__qfUKbtysH4IwF155YENlv3PG6crCmPkA&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=tbankru.outlinekeys.net#%F0%9F%87%AA%F0%9F%87%AA%20EST%20%28xxxxxxxxx%29%20%F0%9F%93%8A%20GB%20FG%20%2F%20SF%20%D8%B1%D9%88%D8%B2%D9%87',
+
+'vless://70b84e89-b42a-4c91-896b-1c3dbd98a203@purplelily.qzz.io:443?path=%2F23.95.56.195%3A443&security=tls&encryption=none&host=purplelily.qzz.io&type=ws&sni=purplelily.qzz.io#%F0%9F%87%BA%F0%9F%87%B8%20US%20%28xxxxxxxxx%29%20%F0%9F%93%8A%20GB%20FG%20%2F%20SF%20%D8%B1%D9%88%D8%B2%D9%87',
+
+'vless://e615a5ba-fce3-4ffa-9c86-b0327a8a107a@185.218.3.39:443?path=%2Fhormoz&security=tls&encryption=none&type=ws#%F0%9F%87%AC%F0%9F%87%A7%20UK%20%28xxxxxxxxx%29%20%F0%9F%93%8A%20GB%20FG%20%2F%20SF%20%D8%B1%D9%88%D8%B2%D9%87',
+
+'vless://55d5c995-b3c7-4055-98d2-af263d7ba8f1@78.159.247.229:5443?security=reality&encryption=none&pbk=jgFDtr4s5Exp90r1O4OHFCnPcRgcMHBqn7-S_jGNvXk&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=max.ru&sid=090c8dc552c6589a#%F0%9F%87%B5%F0%9F%87%B1%20Po%20%28xxxxxxxxx%29%20%F0%9F%93%8A%20GB%20FG%20%2F%20SF%20%D8%B1%D9%88%D8%B2%D9%87'
+           
+        ];
+
+        // Country code mapping
+        const countryCodeMap = {
+            'usa': 'US',
+            'finland': 'Fi',
+            'uk': 'UK',
+            'sweden': 'SW',
+            'germany': 'GR',
+            'france': 'FR',
+            'turkey': 'TK',
+            'UAE': 'UA',
+            'poland': 'Po',
+            'netherlands': 'NS',
+            'hungary': 'HU',
+            'Norway': 'NW',
+            'austria': 'AU',
+            'Algeria': 'AlG',
+            'Italy': 'IT',
+            'Bulgaria': 'BU',
+            'Canada': 'CA',
+            'Russia': 'RU',
+            'Argentina': 'AR',
+            'Kazakhstan': 'KZ',
+            'portugal': 'PT',
+            'Espanol': 'ES',
+            'Japan': 'JA',
+            'Taiwan': 'TA',
+            'Seychelles': 'Sey',
+            'India': 'IN',
+            'Israel': 'IS',
+            'Korean': 'KO',
+            'Lithuania': 'Li',
+            'Switzerland': 'SWT',
+            'estonia': 'EST'
+        };
+
+        // Country name mapping for display in alert
+        const countryNameMap = {
+            'usa': 'آمریکا 🇺🇸',
+            'finland': 'فنلاند 🇫🇮',
+            'uk': 'بریتانیا 🇬🇧',
+            'sweden': 'سوئد 🇸🇪',
+            'germany': 'آلمان 🇩🇪',
+            'france': 'فرانسه 🇫🇷',
+            'turkey': 'ترکیه 🇹🇷',
+            'UAE': 'امارات 🇰🇼',
+            'poland': 'لهستان 🇵🇱',
+            'netherlands': 'هلند 🇳🇱',
+            'hungary': 'مجارستان 🇭🇺',
+            'Norway': 'نروژ 🇧🇻',
+            'Austria': 'استریا 🇦🇹',
+            'Algeria': 'الجزایر 🇩🇿',
+            'Italy': 'ایتالیا 🇮🇹',
+            'Bulgaria': 'بلغارستان 🇧🇬',
+            'Canada': 'کانادا 🇨🇦',
+            'Russia': 'روسیه 🇷🇺',
+            'Argentina': 'آرژانتین 🇦🇷',
+            'kazakhstan': 'قزاقستان 🇰🇿',
+            'portugal': 'پرتغال 🇵🇹',
+            'Espanol': 'اسپانیا 🇪🇸',
+            'Japan': 'ژاپن 🇯🇵',
+            'Taiwan': 'تایوان 🇹🇼',
+            'Seychelles': 'سیشل 🇸🇨',
+            'India': 'هند 🇮🇳',
+            'Israel': 'اسرائیل 🇮🇱',
+            'Korean': 'کره جنوبی 🇰🇷',
+            'Lithuania': 'لیتونی 🇱🇹',
+            'Switzerland': 'سوییس 🇨🇭',
+            'estonia': 'استونی 🇪🇪'
+        };
+
+        // Network name mapping for display in alert
+        const networkNameMap = {
+            'custom': 'وایفای'
+        };
+
+        // Theme Toggle
+        const themeBtn = document.getElementById('themeBtn');
+        const themeIcon = themeBtn.querySelector('i');
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-theme');
+            themeIcon.classList.replace('fa-sun', 'fa-moon');
+            themeBtn.innerHTML = '<i class="fas fa-moon"></i> حالت روز';
+        }
+
+        themeBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark-theme');
+            if (document.documentElement.classList.contains('dark-theme')) {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                themeBtn.innerHTML = '<i class="fas fa-moon"></i> حالت روز';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                themeBtn.innerHTML = '<i class="fas fa-sun"></i> حالت شب';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Login Form
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = document.getElementById('passwordInput').value;
+            const correctPassword = 'DHOSSIUE93HEJE921';
+            if (password.toLowerCase() === correctPassword.toLowerCase()) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('panelContainer').style.display = 'flex';
+            } else {
+                document.getElementById('passwordInput').classList.add('invalid');
+                alert('رمز عبور اشتباه است! لطفاً دوباره تلاش کنید.');
+            }
+        });
+
+        // Config Creation
+        document.getElementById('configForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const country = document.getElementById('countrySelect').value;
+            const volume = parseInt(document.getElementById('volumeInput').value);
+            const duration = document.getElementById('durationSelect').value;
+            const network = document.getElementById('networkSelect').value;
+            const button = document.getElementById('createConfigBtn');
+            const configOutput = document.getElementById('configOutput');
+            const configText = document.getElementById('configText');
+
+            // Input validation
+            if (!country || !volume || !duration || !network) {
+                alert('لطفاً تمام فیلدها را پر کنید!');
+                return;
+            }
+            if (volume < 5000 || volume > 5000) {
+                alert('حجم کانفینگ باید 5 ترابایت باشد');
+                document.getElementById('volumeInput').classList.add('invalid');
+                return;
+            }
+
+            const originalContent = button.innerHTML;
+            button.disabled = true;
+            configOutput.style.display = 'none';
+
+            try {
+                let countdown = 10; // 10 seconds countdown
+                button.innerHTML = `در حال ساخت... (${countdown})`;
+                const interval = setInterval(() => {
+                    countdown--;
+                    if (countdown > 0) {
+                        button.innerHTML = `در حال ساخت... (${countdown})`;
+                    } else {
+                        clearInterval(interval);
+                        button.innerHTML = originalContent;
+                        button.disabled = false;
+
+                        const countryCode = countryCodeMap[country];
+                        const availableConfigs = v2rayConfigs.filter(config => config.includes(countryCode));
+
+                        if (availableConfigs.length === 0) {
+                            alert(`هیچ کانفیگ جدیدی برای ${countryNameMap[country]} (${countryCode}) موجود نیست!`);
+                            return;
+                        }
+
+                        const selectedConfig = availableConfigs[Math.floor(Math.random() * availableConfigs.length)];
+                        let finalConfig = selectedConfig.replace(/xxxxxxxxx/g, () => {
+                            return Math.random().toString().slice(2, 11);
+                        });
+
+                        // Replace FG with volume and SF with duration
+                        finalConfig = finalConfig.replace(/FG/g, volume.toString());
+                        finalConfig = finalConfig.replace(/SF/g, duration.toString());
+
+                        configText.value = finalConfig;
+                        configOutput.style.display = 'block';
+                        alert(`✅ کانفیگ با موفقیت ساخته شد! 🎉\n\n` +
+                              `🌍 کشور: ${countryNameMap[country]}\n` +
+                              `📊 حجم: ${volume} گیگابایت\n` +
+                              `⏳ مدت زمان: ${duration} روز\n` +
+                              `📡 شبکه: ${networkNameMap[network]}\n` +
+                              `⚙️ مد کامل شده ✅\n\n` +
+                              `لطفاً کانفیگ را کپی کرده و در برنامه v2ray استفاده کنید.`);
+                    }
+                }, 1000);
+            } catch (error) {
+                alert('خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+                button.innerHTML = originalContent;
+                button.disabled = false;
+            }
+        });
+
+        // Copy Config
+        document.getElementById('copyBtn').addEventListener('click', async () => {
+            const configText = document.getElementById('configText').value;
+            const button = document.getElementById('copyBtn');
+
+            if (!configText) {
+                alert('هیچ کانفیگی برای کپی وجود ندارد!');
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(configText);
+                button.innerHTML = 'کپی شد! <i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    button.innerHTML = 'کپی کانفیگ <i class="fas fa-copy"></i>';
+                    // Auto-refresh page after 1 second
+                    location.reload();
+                }, 1000);
+            } catch (err) {
+                const textarea = document.createElement('textarea');
+                textarea.value = configText;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    button.innerHTML = 'کپی شد! <i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        button.innerHTML = 'کپی کانفیگ <i class="fas fa-copy"></i>';
+                        // Auto-refresh page after 1 second
+                        location.reload();
+                    }, 1000);
+                } catch (err) {
+                    alert('کپی کردن ناموفق بود. لطفاً کانفیگ را به صورت دستی کپی کنید.');
+                }
+                document.body.removeChild(textarea);
+            }
+        });
+
+        // Modal Handlers
+        const modals = [
+            { btn: 'guideBtn', modal: 'guideModal', close: 'closeGuideModal' },
+            { btn: 'v2rayBtn', modal: 'v2rayModal', close: 'closeV2rayModal' }
+        ];
+
+        modals.forEach(({ btn, modal, close }) => {
+            const btnEl = document.getElementById(btn);
+            const modalEl = document.getElementById(modal);
+            const closeEl = document.getElementById(close);
+
+            btnEl.addEventListener('click', () => modalEl.style.display = 'flex');
+            closeEl.addEventListener('click', () => modalEl.style.display = 'none');
+            modalEl.addEventListener('click', (e) => {
+                if (e.target === modalEl) modalEl.style.display = 'none';
+            });
+        });
+
+        // Create Particles
+        function createParticles() {
+            const container = document.createElement('div');
+            container.className = 'particles';
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(particle);
+            }
+            document.body.appendChild(container);
+        }
+
+        createParticles();
+    </script>
+</body>
+</html
